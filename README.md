@@ -41,7 +41,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>userid</code></td>
-			<td>This is the user id created to access your Philips Hue Bridge.<br> See here for more details - [Developers meethue](http://www.developers.meethue.com/documentation/getting-started)
+			<td>This is the user id created to access your Philips Hue Bridge.<br> See here for more details -  http://www.developers.meethue.com/documentation/getting-started
 			</td>
 		</tr>
 		<tr>
