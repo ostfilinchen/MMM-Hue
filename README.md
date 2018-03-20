@@ -34,7 +34,6 @@ The following properties can be configured:
 		</tr>
 	</thead>
 	<tbody>
-
 		<tr>
 			<td><code>bridgeip</code></td>
 			<td>The ip address of your Philips Hue Bridge.
@@ -42,7 +41,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>userid</code></td>
-			<td>This is the user id created to access your Philips Hue Bridge.<br> See here for more details - http://www.developers.meethue.com/documentation/getting-started
+			<td>This is the user id created to access your Philips Hue Bridge.<br> See here for more details - [Developers meethue](http://www.developers.meethue.com/documentation/getting-started)
 			</td>
 		</tr>
 		<tr>
@@ -52,22 +51,22 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>refreshTime</code></td>
-			<td>How often should the lamp states refreshed</br> Default: 60 * 10000
+			<td>How often should the lamp states refreshed</br><b> Default:</b> <code>60 * 10000</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>lightsorgroups</code></td>
-			<td>Should the module show groups or lights</br> Default: "groups"
+			<td>Should the module show groups or lights</br><b> Default:</b> <code>"groups"</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>showOnlyOn</code></td>
-			<td>If set to true the module shows only the lights which are on</br> Default: false
+			<td>If set to true the module shows only the lights which are on</br><b> Default:</b> <code>false</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>hideSpecificGroups</code></td>
-			<td>Ignore some groups by a given string (requires hideGroupsWithString option)</br> Default: false
+			<td>Ignore some groups by a given string (requires hideGroupsWithString option)</br> <b>Default:<b> 					<code>false</code>
 			</td>
 		</tr>
 		<tr>
@@ -77,7 +76,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>showLabel</code></td>
-			<td>Show header label?</br> Default: true
+			<td>Show header label?</br><b>Default:<b> <code>true</code>
 			</td>
 		</tr>
 	</tbody>
