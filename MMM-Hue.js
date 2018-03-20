@@ -14,7 +14,7 @@ Module.register("MMM-Hue", {
         bridgeip: "",
         userid: "",
         colour: false,
-        refreshTime: 60 * 10000,
+        refreshTime: 60 * 1000,
         lightsorgroups: "groups",
         showOnlyOn: false,
         showLabel: true,
@@ -102,11 +102,11 @@ Module.register("MMM-Hue", {
                 lightsallLabel.classList.add("centered");
 
                 var lightstatus = document.createElement("i");
-                //lightstatus.classList.add("fa", result[lamp].state.all_on ? "fa-lightbulb-o" : (result[lamp].state.any_on ? "fa-adjust" : "fa-times"));
-                lightstatus.classList.add("fa", this.result[lamps[i]].state.reachable ? (this.result[lamps[i]].state.on ? "fa-lightbulb-o" : "fa-adjust" ) : "fa-times");
+                //lightstatus.classList.add("fa", result[lamp].state.on ? "fa-lightbulb-o" : (result[lamp].state.on ? "fa-adjust" : "fa-times"));
+                lightstatus.classList.add("fa", result[lamps[i]].state.reachable ? (result[lamps[i]].state.on ? "fa-lightbulb-o" : "fa-adjust" ) : "fa-times");
                 if (config.colour) {
 
-                    if (this.result[lamp].state.on) {
+                    if (result[lamp].state.on) {
                         lightstatus.classList.add("lights-all-on")
                     }
                     else {
@@ -119,11 +119,12 @@ Module.register("MMM-Hue", {
 
                 lightsallLabel.appendChild(lightstatus);
                 
-                var lightbrightness = document.createElement("i");
-                lightbrightness = this.result[lamps[i]].state.bri / 254
-                lightsallLabel.appendChild(lightbrightness);
-                
+                var lightbrightness = document.createElement("td");
+                lightbrightness.classList.add("centered");
+                lightbrightness.innerHTML = Math.round(result[lamps[i]].state.bri / 254*100) + "%"
+                                
                 row.appendChild(lightsallLabel);
+                row.appendChild(lightbrightness);
                 table.appendChild(row);
             }
             wrapper.appendChild(table);
@@ -153,9 +154,9 @@ Module.register("MMM-Hue", {
         labelRow.appendChild(lightsonlabel);
         
         var lightbrightnesslbl = document.createElement("th");
-        lightbrightnesslbl = document.createElement("percentage");
+        lightbrightnesslbl.classList.add("centered")
         var typeIcon = document.createElement("brightness");
-        typeIcon.classList.add("fas", "fa-adjust");
+        typeIcon.classList.add("fa", "fa-adjust");
         lightbrightnesslbl.appendChild(typeIcon)
         labelRow.appendChild(lightbrightnesslbl);
 
