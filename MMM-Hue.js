@@ -115,7 +115,14 @@ Module.register("MMM-Hue", {
                         }
                     }
                 }
+                
+
                 lightsallLabel.appendChild(lightstatus);
+                
+                var lightbrightness = document.createElement("i");
+                lightbrightness = this.result[lamps[i]].state.bri / 254
+                lightsallLabel.appendChild(lightbrightness);
+                
                 row.appendChild(lightsallLabel);
                 table.appendChild(row);
             }
@@ -144,6 +151,13 @@ Module.register("MMM-Hue", {
         typeIcon.innerHTML = this.translate("LIGHTS_ON");
         lightsonlabel.appendChild(typeIcon);
         labelRow.appendChild(lightsonlabel);
+        
+        var lightbrightnesslbl = document.createElement("th");
+        lightbrightnesslbl = document.createElement("percentage");
+        var typeIcon = document.createElement("brightness");
+        typeIcon.classList.add("fas", "fa-adjust");
+        lightbrightnesslbl.appendChild(typeIcon)
+        labelRow.appendChild(lightbrightnesslbl);
 
         var lightsonlabel = document.createElement("th");
         lightsonlabel.classList.add("centered");
