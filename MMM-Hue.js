@@ -34,7 +34,8 @@ Module.register("MMM-Hue", {
     getTranslations: function() {
       return {
         'en': 'translations/en.json',
-        'id': 'translations/id.json'
+        'id': 'translations/id.json',
+        'de': 'translations/de.json'
       };
     },
     // Define start sequence.
@@ -101,14 +102,15 @@ Module.register("MMM-Hue", {
                 lightsallLabel.classList.add("centered");
 
                 var lightstatus = document.createElement("i");
-                lightstatus.classList.add("fa", result[lamp].state.all_on ? "fa-lightbulb-o" : (result[lamp].state.any_on ? "fa-adjust" : "fa-times"));
+                //lightstatus.classList.add("fa", result[lamp].state.all_on ? "fa-lightbulb-o" : (result[lamp].state.any_on ? "fa-adjust" : "fa-times"));
+                lightstatus.classList.add("fa", this.result[lamps[i]].state.reachable ? (this.result[lamps[i]].state.on ? "fa-lightbulb-o" : "fa-adjust" ) : "fa-times");
                 if (config.colour) {
 
-                    if (result[lamp].state.all_on) {
+                    if (this.result[lamp].state.on) {
                         lightstatus.classList.add("lights-all-on")
                     }
                     else {
-                        if (result[lamp].state.any_on) {
+                        if (result[lamp].state.on) {
                             lightstatus.classList.add("lights-partial-on")
                         }
                     }
