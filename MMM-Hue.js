@@ -119,12 +119,12 @@ Module.register("MMM-Hue", {
                 lightsallLabel.appendChild(lightstatus);
                 row.appendChild(lightsallLabel);
                 
-                if (this.lightsorgroups.equals("lights")) { 
+                //if (this.lightsorgroups.equals("lights")) { 
                 var lightbrightness = document.createElement("td");
                 lightbrightness.classList.add("centered");
                 lightbrightness.innerHTML = Math.round(result[lamps[i]].state.bri / 254 * 100) + "%"
                 row.appendChild(lightbrightness);
-                }
+                //}
                 
                 table.appendChild(row);
             }
