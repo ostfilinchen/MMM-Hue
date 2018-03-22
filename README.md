@@ -8,15 +8,16 @@ Navigate into your MagicMirror's modules folder and execute <br>
 
 To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
-{
+
+	{
 		    module: 'MMM-Hue',
 		    position: 'top_right',
-		    config:{
-                bridgeip: "192.168.1.1",
-		        userid: "my user id",
-                colour: false
-            }
-		}
+		    config: {
+                    	bridgeip: "192.168.1.1",
+		    	userid: "my user id",
+                    	colour: false
+        		     }
+	},
 ````
 Please visit [Philips Hue API page](https://www.developers.meethue.com/documentation/getting-started) to get an userid.
 
