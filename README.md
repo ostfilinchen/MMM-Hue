@@ -52,7 +52,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>refreshTime</code></td>
-			<td>How often should the lamp states refreshed</br><b> Default:</b> <code>60 * 10000</code>
+			<td>How often should the lamp states refreshed (in minutes)</br><b> Default:</b> <code>1</code>
 			</td>
 		</tr>
 		<tr>
