@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Module: MMM-Hue
  *
- * By MitchSS
+ * By ostfilinchen
  * MIT Licensed.
  */
 
@@ -42,7 +42,7 @@ Module.register("MMM-Hue", {
     // Define start sequence.
     start: function () {
         //These will be moved to config in a later release
-        this.lightsorgroups = "lights" //this.config.lightsorgroups;
+        this.lightsorgroups = this.config.lightsorgroups;
         this.updateInterval = this.config.refreshTime *60 * 1000; // updates every 10 minutes
         this.animationSpeed = 2 * 1000;
         this.initialLoadDelay = 0.5 * 1000;
@@ -61,7 +61,8 @@ Module.register("MMM-Hue", {
         //alert("http://" + this.config.bridgeip + "/api/" + this.config.userid + "/" + this.config.lightsorgroups);
 
         if (this.result) {
-
+			
+			if (this.lightsorgroups=="lights") {
             var table = document.createElement("table");
             table.classList.add("small", "table", "align-left");
 
@@ -129,15 +130,80 @@ Module.register("MMM-Hue", {
                 
                 var lightbrightness = document.createElement("td");
                 lightbrightness.classList.add("centered");
-                
                 lightbrightness.innerHTML = Math.round(result[lamps[i]].state.bri / 254 * 100) + "%";
-
                 row.appendChild(lightbrightness);
                 
                 table.appendChild(row);
             }
             wrapper.appendChild(table);
-        } else {
+			
+        } else if (this.lightsorgroups=="groups") {
+			
+            var table = document.createElement("table");
+            table.classList.add("small", "table", "align-left");
+
+            if (this.config.showLabel)
+              table.appendChild(this.createLabelRow());
+
+            var lamps = Object.keys(this.result);
+
+            for (var i = 0; i < lamps.length; i++) {
+                var groupName = this.result[lamps[i]].name;
+                
+                //for debugging
+                if (this.config.debug==true) {
+                console.debug(groupName, groupName.includes('hgrp'));
+                };
+
+                if (this.config.showOnlyOn) {
+                    if (this.config.hideSpecificGroups && !groupName.includes(this.config.hideGroupsWithString)) {
+                        if (this.result[lamps[i]].state.all_on || this.result[lamps[i]].state.any_on) {
+                            domAction(this.result,lamps[i],this.config);
+                        }
+                    } else if (!this.config.hideSpecificGroups) {
+                        domAction(this.result,lamps[i],this.config);
+                    }
+                } else {
+                    if (this.config.hideSpecificGroups && !groupName.includes(this.config.hideGroupsWithString)) {
+                        domAction(this.result,lamps[i],this.config);
+                    } else if (!this.config.hideSpecificGroups) {
+                        domAction(this.result,lamps[i],this.config);
+                    }
+                }
+            }
+
+            function domAction(result, lamp, config) {
+                var row = document.createElement("tr");
+                var room = document.createElement("td");
+                
+                //for debugging
+                if (this.config.debug==true) {
+                console.debug(result[lamp[i]]);
+                };
+                
+                room.innerHTML = result[lamp].name;
+                row.appendChild(room);
+                var lightsallLabel = document.createElement("td");
+                lightsallLabel.classList.add("centered");
+
+                var lightstatus = document.createElement("i");
+                lightstatus.classList.add("fa", result[lamps[i]].state.any_on ? "fa-lightbulb-o" : "fa-power-off" );
+
+                if (config.colour) {
+
+                    if (result[lamp].state.any_on) {
+                        lightstatus.classList.add("lights-all-on")
+                    }
+                   
+                };
+                
+                lightsallLabel.appendChild(lightstatus);
+                row.appendChild(lightsallLabel);
+                table.appendChild(row);
+            }
+		}
+            wrapper.appendChild(table);
+			} else {
             wrapper.innerHTML = this.translate("NO_DATA");
             wrapper.className = "dimmed light small";
         }
@@ -161,13 +227,15 @@ Module.register("MMM-Hue", {
         lightsonlabel.appendChild(typeIcon);
         labelRow.appendChild(lightsonlabel);
         
-        var lightbrightnesslbl = document.createElement("th");
-        lightbrightnesslbl.classList.add("centered")
-        var typeIcon = document.createElement("brightness");
-        typeIcon.classList.add("fa", "fa-adjust");
-        lightbrightnesslbl.appendChild(typeIcon)
-        labelRow.appendChild(lightbrightnesslbl);
-
+		if (this.lightsorgroups=="lights") {
+			var lightbrightnesslbl = document.createElement("th");
+			lightbrightnesslbl.classList.add("centered")
+			var typeIcon = document.createElement("brightness");
+			typeIcon.classList.add("fa", "fa-adjust");
+			lightbrightnesslbl.appendChild(typeIcon)
+			labelRow.appendChild(lightbrightnesslbl);
+		}
+		
         var lightsonlabel = document.createElement("th");
         lightsonlabel.classList.add("centered");
 
