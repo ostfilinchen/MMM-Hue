@@ -15,12 +15,12 @@ Module.register("MMM-Hue", {
         userid: "",
         colour: false,
         refreshTime: 1,
-        lightsorgroups: "groups",
+        lightsorgroups: "lights",
         showOnlyOn: false,
         showLabel: true,
         hideSpecificGroups: false,
         hideGroupsWithString: 'hgrp',
-        debug: true
+        debug: false
 
     },
     // Define required scripts.
@@ -42,7 +42,7 @@ Module.register("MMM-Hue", {
     // Define start sequence.
     start: function () {
         //These will be moved to config in a later release
-        this.lightsorgroups = this.config.lightsorgroups;
+        this.lightsorgroups = "lights" //this.config.lightsorgroups;
         this.updateInterval = this.config.refreshTime *60 * 1000; // updates every 10 minutes
         this.animationSpeed = 2 * 1000;
         this.initialLoadDelay = 0.5 * 1000;
@@ -101,7 +101,7 @@ Module.register("MMM-Hue", {
                 
                 //for debugging
                 if (this.config.debug==true) {
-                console.debug(result[lamp]);
+                console.debug(result[lamp[i]]);
                 };
                 
                 room.innerHTML = result[lamp].name;
@@ -110,36 +110,19 @@ Module.register("MMM-Hue", {
                 lightsallLabel.classList.add("centered");
 
                 var lightstatus = document.createElement("i");
-                //lightstatus.classList.add("fa", result[lamp].state.on ? "fa-lightbulb-o" : (result[lamp].state.on ? "fa-adjust" : "fa-times"));
-                if (this.lightsorgroups=="lights") {
-                lightstatus.classList.add("fa", result[lamps[i]].state.reachable ? (result[lamps[i]].state.on ? "fa-lightbulb-o" : "fa-power-off" ) : "fa-times");
-                } else {
-                    lightstatus.classList.add("fa", result[lamps[i]].state.any_on ? (result[lamps[i]].action.on ? "fa-lightbulb-o" : "fa-power-off" ) : "fa-times");
-                };
-            
-                if (config.colour==true & this.lightsorgroups=="lights") {
+                lightstatus.classList.add("fa", result[lamps[i]].state.reachable ? (result[lamp].state.on ? "fa-lightbulb-o" : "fa-power-off" ) : "fa-times");
 
-                    if (result[lamp].state.on==true & result[lamp].state.bri==254) {
+                if (config.colour) {
+
+                    if (result[lamp].state.on==true & result[lamps[i]].state.bri==254) {
                         lightstatus.classList.add("lights-all-on")
                     }
                     else {
-                        if (result[lamp].state.on==true & result[lamp].state.bri<254) {
+                        if (result[lamp].state.on==true & result[lamps[i]].state.bri<254) {
                             lightstatus.classList.add("lights-partial-on")
                         }
                     }
                 };
-                
-                if (config.colour==true & this.lightsorgroups=="groups") {
-
-                    if (result[lamp].state.any_on==true & result[lamp].action.bri==254) {
-                        lightstatus.classList.add("lights-all-on")
-                    }
-                    else {
-                        if (result[lamp].state.any_on==true & result[lamp].action.bri<254) {
-                            lightstatus.classList.add("lights-partial-on")
-                        }
-                    }
-                };                
                 
                 lightsallLabel.appendChild(lightstatus);
                 row.appendChild(lightsallLabel);
@@ -147,11 +130,8 @@ Module.register("MMM-Hue", {
                 var lightbrightness = document.createElement("td");
                 lightbrightness.classList.add("centered");
                 
-            if (this.lightsorgroups=="lights") {
-                lightbrightness.innerHTML = Math.round(result[lamp].state.bri / 254 * 100) + "%"
-                } else {
-                    lightbrightness.innerHTML = Math.round(result[lamp].action.bri / 254 * 100) + "%"
-                };
+                lightbrightness.innerHTML = Math.round(result[lamps[i]].state.bri / 254 * 100) + "%";
+
                 row.appendChild(lightbrightness);
                 
                 table.appendChild(row);
@@ -162,8 +142,8 @@ Module.register("MMM-Hue", {
             wrapper.className = "dimmed light small";
         }
         return wrapper;
-    },
-
+    }
+    ,
     createLabelRow: function () {
 
         var labelRow = document.createElement("tr");
