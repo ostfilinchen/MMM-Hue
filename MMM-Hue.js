@@ -74,7 +74,7 @@ Module.register("MMM-Hue", {
                 var groupName = this.result[lamps[i]].name;
                 
                 //for debugging
-                if (this.config.debug = true) {
+                if (this.config.debug==true) {
                 console.debug(groupName, groupName.includes('hgrp'));
                 };
 
@@ -100,7 +100,7 @@ Module.register("MMM-Hue", {
                 var room = document.createElement("td");
                 
                 //for debugging
-                if (this.config.debug = true) {
+                if (this.config.debug==true) {
                 console.debug(result[lamp]);
                 };
                 
