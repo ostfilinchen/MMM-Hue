@@ -20,7 +20,7 @@ Module.register("MMM-Hue", {
         showLabel: true,
         hideSpecificGroups: false,
         hideGroupsWithString: 'hgrp',
-        debug: false
+        debug: true
 
     },
     // Define required scripts.
@@ -45,7 +45,7 @@ Module.register("MMM-Hue", {
         this.lightsorgroups = this.config.lightsorgroups;
         this.updateInterval = this.config.refreshTime *60 * 1000; // updates every 10 minutes
         this.animationSpeed = 2 * 1000;
-        this.initialLoadDelay = 0;
+        this.initialLoadDelay = 0.5 * 1000;
         //end
         var result = false;
         this.url = "http://" + this.config.bridgeip + "/api/" + this.config.userid + "/" + this.lightsorgroups;
@@ -111,8 +111,13 @@ Module.register("MMM-Hue", {
 
                 var lightstatus = document.createElement("i");
                 //lightstatus.classList.add("fa", result[lamp].state.on ? "fa-lightbulb-o" : (result[lamp].state.on ? "fa-adjust" : "fa-times"));
+                if (this.lightsorgroups=="lights") {
                 lightstatus.classList.add("fa", result[lamps[i]].state.reachable ? (result[lamps[i]].state.on ? "fa-lightbulb-o" : "fa-power-off" ) : "fa-times");
-                if (config.colour) {
+                } else {
+                    lightstatus.classList.add("fa", result[lamps[i]].state.any_on ? (result[lamps[i]].action.on ? "fa-lightbulb-o" : "fa-power-off" ) : "fa-times");
+                };
+            
+                if (config.colour==true & this.lightsorgroups=="lights") {
 
                     if (result[lamp].state.on==true & result[lamp].state.bri==254) {
                         lightstatus.classList.add("lights-all-on")
@@ -122,17 +127,32 @@ Module.register("MMM-Hue", {
                             lightstatus.classList.add("lights-partial-on")
                         }
                     }
-                }
+                };
+                
+                if (config.colour==true & this.lightsorgroups=="groups") {
+
+                    if (result[lamp].state.any_on==true & result[lamp].action.bri==254) {
+                        lightstatus.classList.add("lights-all-on")
+                    }
+                    else {
+                        if (result[lamp].state.any_on==true & result[lamp].action.bri<254) {
+                            lightstatus.classList.add("lights-partial-on")
+                        }
+                    }
+                };                
                 
                 lightsallLabel.appendChild(lightstatus);
                 row.appendChild(lightsallLabel);
                 
-                //if (this.lightsorgroups.equals("lights")) { 
                 var lightbrightness = document.createElement("td");
                 lightbrightness.classList.add("centered");
-                lightbrightness.innerHTML = Math.round(result[lamps[i]].state.bri / 254 * 100) + "%"
+                
+            if (this.lightsorgroups=="lights") {
+                lightbrightness.innerHTML = Math.round(result[lamp].state.bri / 254 * 100) + "%"
+                } else {
+                    lightbrightness.innerHTML = Math.round(result[lamp].action.bri / 254 * 100) + "%"
+                };
                 row.appendChild(lightbrightness);
-                //}
                 
                 table.appendChild(row);
             }
