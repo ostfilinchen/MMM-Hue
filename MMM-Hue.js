@@ -114,11 +114,11 @@ Module.register("MMM-Hue", {
                 lightstatus.classList.add("fa", result[lamps[i]].state.reachable ? (result[lamps[i]].state.on ? "fa-lightbulb-o" : "fa-power-off" ) : "fa-times");
                 if (config.colour) {
 
-                    if (result[lamp].state.on and result[lamp].state.bri = 254) {
+                    if (result[lamp].state.on==true & result[lamp].state.bri==254) {
                         lightstatus.classList.add("lights-all-on")
                     }
                     else {
-                        if (result[lamp].state.on and result[lamp].state.bri < 254) {
+                        if (result[lamp].state.on==true & result[lamp].state.bri<254) {
                             lightstatus.classList.add("lights-partial-on")
                         }
                     }
